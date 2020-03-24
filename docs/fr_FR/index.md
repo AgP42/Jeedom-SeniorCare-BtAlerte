@@ -10,7 +10,7 @@ A ce jour, les principales fonctionnalités sont :
 * Surveillance sécurité (détecteurs de fumée, de fuite de gaz, …)
 * Surveillance de « Dérive comportementale » afin de détecter et prendre en charge au plus tôt et donc au mieux, les difficultés inhérentes à l'âge
 
-Lien vers le code source : [https://github.com/AgP42/seniorcare/](https://github.com/AgP42/seniorcare/)
+Lien vers le code source : [https://github.com/AgP42/seniorcarealertbt/](https://github.com/AgP42/seniorcarealertbt/)
 
 Si vous souhaitez participer au projet, n’hésitez pas à le faire savoir ici [Développer un logiciel d’Analyse comportementale](https://community.jeedom.com/t/developper-un-logiciel-danalyse-comportementale/19111/2)
 
@@ -93,7 +93,7 @@ Trois étapes de fonctionnement :
   * Définir la liste des actions à lancer afin d’alerter les aidants et informer la personne dépendante qu’une alerte est en cours
   * Définir la liste d’actions permettant de désactiver ces actions d’alerte. L'alerte est déactivée par n’importe quel capteur de l’étape 1. La personne dans son logement ou un aidant une fois sur place pourront donc le faire
 
-![](https://raw.githubusercontent.com/AgP42/seniorcare/dev/docs/assets/images/Detection_inactivite.png)
+![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/dev/docs/assets/images/Detection_inactivite.png)
 
 Onglet **Bouton d'alerte**
 ---
@@ -106,7 +106,7 @@ Cet onglet permet de regrouper différents boutons d'alertes immédiates que la 
 
 Si l'une de vos action est de type "message", vous pouvez utiliser le tag #senior_name# qui enverra le nom configuré dans l'onglet "Général".
 
-![](https://raw.githubusercontent.com/AgP42/seniorcare/dev/docs/assets/images/Boutons_alerte.png)
+![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/dev/docs/assets/images/Boutons_alerte.png)
 
 Onglet **Confort**
 ---
@@ -140,7 +140,7 @@ Si l'une de vos action est de type "message", vous pouvez utiliser les tags suiv
   * #high_threshold# : seuil haut défini
   * #unit# : unité correspondant à la valeur
 
-![](https://raw.githubusercontent.com/AgP42/seniorcare/dev/docs/assets/images/Confort.png)
+![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/dev/docs/assets/images/Confort.png)
 
 Onglet **Sécurité**
 ---
@@ -156,7 +156,7 @@ Si l'une de vos action est de type "message", vous pouvez utiliser les tags suiv
   * #sensor_name# : nom du capteur ayant déclenché l'alerte (uniquement pour l'alerte et non pour l'annulation d'alerte)
   * #sensor_type# : type de ce capteur - attention, le type sera donné en anglais
 
-![](https://raw.githubusercontent.com/AgP42/seniorcare/dev/docs/assets/images/Onglet_securité.png)
+![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/dev/docs/assets/images/Onglet_securité.png)
 
 Onglet **Dérive comportementale**
 ---

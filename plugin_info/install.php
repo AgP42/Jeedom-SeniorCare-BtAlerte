@@ -18,16 +18,16 @@
 
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
-function seniorcare_install() {
+function seniorcarealertbt_install() {
 
 }
 
-function seniorcare_update() {
+function seniorcarealertbt_update() {
 
 }
 
 
-function seniorcare_remove() {
+function seniorcarealertbt_remove() {
 
 }
 
