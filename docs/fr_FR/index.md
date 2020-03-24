@@ -5,7 +5,7 @@ Ce plugin fait parti d'un ensemble de plugins pour Jeedom permettant l'aide au m
 
 La demande initiale vient de ce sujet sur le forum : [Développer un logiciel d’Analyse comportementale](https://community.jeedom.com/t/developper-un-logiciel-danalyse-comportementale/19111).
 
-Ce plugin permet :
+Ce plugin a en charge :
 * Gestion de boutons d’alertes
 
 Lien vers le code source : [https://github.com/AgP42/seniorcarealertbt/](https://github.com/AgP42/seniorcarealertbt/)
@@ -72,4 +72,4 @@ RAS
 Remarques générales
 ===
 * Pour les capteurs "bouton d'alerte" et "bouton d'annulation d'alerte", c'est le changement de valeur du capteur qui est détecté et déclenche les actions, la valeur en elle-même n'est pas prise en compte !
-* L'ensemble des capteurs définis dans le plugin doivent posséder un nom unique. Le changement de nom d'un capteur revient à le supprimer et à en créer un nouveau. De fait, la totalité de l'historique associé à ce capteur sera donc perdu.
+* L'ensemble des capteurs définis dans le plugin doivent posséder un nom unique. Le changement de nom d'un capteur revient à le supprimer et à en créer un nouveau. De fait, la totalité de l'historique associé à ce capteur sera donc perdue.
