@@ -26,7 +26,6 @@ function seniorcarealertbt_update() {
 
 }
 
-
 function seniorcarealertbt_remove() {
 
 }
