@@ -23,7 +23,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
       <span>{{Configuration}}</span>
     </div>
     </div>
-    <legend><i class="fas fa-table"></i> {{Personne dépendante}}</legend>
+    <legend><i class="fas fa-user-plus"></i> {{Personne dépendante}}</legend>
   	   <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
   <div class="eqLogicThumbnailContainer">
       <?php
@@ -49,17 +49,13 @@ $eqLogics = eqLogic::byType($plugin->getId());
     <li role="presentation"><a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay"><i class="fa fa-arrow-circle-left"></i></a></li>
     <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-tachometer-alt"></i> {{Général}}</a></li>
 
-<!--     <li role="presentation"><a href="#absencestab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-calendar-alt"></i> {{Gestion absences}}</a></li>
-
-    <li role="presentation"><a href="#lifesigntab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-heartbeat"></i> {{Détection d'inactivité}}</a></li> -->
-
     <li role="presentation"><a href="#alertbttab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-toggle-on"></i> {{Bouton d'alerte}}</a></li>
 
-<!--     <li role="presentation"><a href="#conforttab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-spa"></i> {{Confort}}</a></li>
+    <li role="presentation"><a href="#actionalerttab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-users"></i> {{Actions d'alerte}}</a></li>
 
-    <li role="presentation"><a href="#securitytab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-exclamation-triangle"></i> {{Sécurité}}</a></li>
+    <li role="presentation"><a href="#aralerttab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-check-square"></i> {{Accusé de réception}}</a></li>
 
-    <li role="presentation"><a href="#alertesPerteAutonomietab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-brain"></i> {{Dérive comportementale}}</a></li> -->
+    <li role="presentation"><a href="#cancelalerttab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-bell-slash"></i> {{Annulation d'alerte}}</a></li>
 
     <li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Avancé - Commandes Jeedom}}</a></li>
 
@@ -115,27 +111,35 @@ $eqLogics = eqLogic::byType($plugin->getId());
       </form>
     </div>
 
-    <!-- TAB Capteurs Bouton alerte immédiate -->
+    <!-- TAB Capteurs Bouton alerte -->
     <div class="tab-pane" id="alertbttab">
       <br/>
       <div class="alert alert-info">
-        {{Onglet de configuration de boutons d'alerte immédiate pour prévenir les aidants.}}
+        {{Onglet de configuration de boutons d'alerte pour prévenir les aidants.}}
       </div>
 
         <form class="form-horizontal">
         <fieldset>
-          <legend><i class="fas fa-toggle-on"></i> {{Boutons d'alerte immédiate (quel actionneur va lancer une alerte ?)}}
+          <legend><i class="fas fa-toggle-on"></i> {{Boutons d'alerte (quel actionneur va lancer une alerte ?)}}
             <a class="btn btn-success btn-sm addSensorBtAlert" style="margin:5px;"><i class="fas fa-plus-circle"></i> {{Ajouter un bouton}}</a>
           </legend>
           <div id="div_alert_bt"></div>
         </fieldset>
       </form>
 
-      <br>
+    </div>
+
+    <!-- TAB actions alerte -->
+    <div class="tab-pane" id="actionalerttab">
+
+      <br/>
+      <div class="alert alert-info">
+        {{Onglet de configuration des actions d'alerte pour prévenir les aidants. Vous pouvez choisir plusieurs actions et un délai d'attente pour chacune. Les actions en attente ne seront pas exécutées si un accusé de reception est recu entre-temps, ou en cas d'annulation de l'alerte.}}
+      </div>
 
       <form class="form-horizontal">
         <fieldset>
-          <legend><i class="fas fa-bomb"></i> {{Actions alerte immédiate vers les aidants (pour alerter, je dois ?)}} <sup><i class="fas fa-question-circle tooltips" title="{{Actions réalisées à l'activation d'un bouton d'alerte par la personne dépendante.
+          <legend><i class="fas fa-bomb"></i> {{Actions alerte vers les aidants (pour alerter, je dois ?)}} <sup><i class="fas fa-question-circle tooltips" title="{{Actions réalisées à l'activation d'un bouton d'alerte par la personne dépendante.
           Tag utilisable : #senior_name#.}}"></i></sup>
             <a class="btn btn-success btn-sm addAction" data-type="action_alert_bt" style="margin:5px;"><i class="fas fa-plus-circle"></i> {{Ajouter une action}}</a>
           </legend>
@@ -145,6 +149,57 @@ $eqLogics = eqLogic::byType($plugin->getId());
       </form>
 
       <br>
+
+    </div>
+
+    <!-- TAB AR alerte -->
+    <div class="tab-pane" id="aralerttab">
+      <br/>
+      <div class="alert alert-info">
+        {{Onglet de configuration des actions d'accusé de réception de l'alerte par un aidant extérieur}}
+      </div>
+
+      <form class="form-horizontal">
+        <fieldset>
+          <legend><i class="fas fa-check-square"></i> {{Commande à appeler depuis l'extérieur pour accuser réception de l'alerte}} <sup><i class="fas fa-question-circle tooltips" title="{{Réglages/Système/Configuration/Réseaux doit être correctement renseigné !}}"></i></sup>
+          </legend>
+          <div class="form-group">
+            <label class="col-sm-1 control-label">{{URL }}</label>
+            <div class="col-sm-6" id="div_cmd_api_AR">
+              <?php
+              if(init('id') != ''){
+                $eqLogic = eqLogic::byId(init('id'));
+                $cmd = $eqLogic->getCmd(null, 'alerte_bt_ar');
+                echo '<a href="' . $cmd->getDirectUrlAccess() . '" target="_blank"><i class="fas fa-external-link-alt"></i>  '. $cmd->getDirectUrlAccess() . '</a>';
+              } else {
+                echo 'Sauvegarder ou rafraichir la page pour afficher l\'URL';
+              }
+              ?>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+
+      <br>
+
+      <form class="form-horizontal">
+        <fieldset>
+          <legend><i class="fas fa-hands-helping"></i> {{Actions à la réception d'un accusé de réception (pour prévenir la personne qu'un aidant arrive, je dois ?)}} <sup><i class="fas fa-question-circle tooltips" title="{{}}"></i></sup>
+            <a class="btn btn-success btn-sm addAction" data-type="action_ar_alert_bt" style="margin:5px;"><i class="fas fa-plus-circle"></i> {{Ajouter une action}}</a>
+          </legend>
+          <div id="div_action_ar_alert_bt"></div>
+
+        </fieldset>
+      </form>
+
+    </div>
+
+    <!-- TAB Capteurs Bouton alerte -->
+    <div class="tab-pane" id="cancelalerttab">
+      <br/>
+      <div class="alert alert-info">
+        {{Onglet de configuration des boutons et actions d'annulation d'alerte.}}
+      </div>
 
       <form class="form-horizontal">
         <fieldset>
@@ -172,7 +227,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
     <!-- TAB COMMANDES -->
     <div role="tabpanel" class="tab-pane" id="commandtab">
-      <a class="btn btn-success btn-sm cmdAction pull-right" data-action="add" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Commandes}}</a><br/><br/>
+      <!-- <a class="btn btn-success btn-sm cmdAction pull-right" data-action="add" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Commandes}}</a><br/><br/> -->
       <table id="table_cmd" class="table table-bordered table-condensed">
         <thead>
           <tr>

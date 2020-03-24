@@ -18,6 +18,7 @@
 // permet de reorganiser les elements de la div en les cliquant/deplacant
 $("#div_alert_bt").sortable({axis: "y", cursor: "move", items: ".alert_bt", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#div_action_alert_bt").sortable({axis: "y", cursor: "move", items: ".action_alert_bt", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$("#div_action_ar_alert_bt").sortable({axis: "y", cursor: "move", items: ".action_ar_alert_bt", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#div_cancel_alert_bt").sortable({axis: "y", cursor: "move", items: ".cancel_alert_bt", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#div_action_cancel_alert_bt").sortable({axis: "y", cursor: "move", items: ".action_cancel_alert_bt", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
@@ -34,7 +35,6 @@ $('.addSensorCancelBtAlert').off('click').on('click', function () {
 $('.addAction').off('click').on('click', function () {
   addAction({}, $(this).attr('data-type'));
 });
-
 
 // tous les - qui permettent de supprimer la ligne
 $("body").off('click','.bt_removeAction').on('click','.bt_removeAction',function () {
@@ -107,7 +107,7 @@ function addSensorBtAlert(_info) {
       div += '</div>';
 
       div += '<label class="col-sm-1 control-label">Capteur</label>';
-      div += '<div class="col-sm-2">';
+      div += '<div class="col-sm-3">';
         div += '<div class="input-group">';
           div += '<input class="expressionAttr form-control cmdInfo" data-l1key="cmd" />';
           div += '<span class="input-group-btn">';
@@ -143,7 +143,7 @@ function addSensorCancelBtAlert(_info) {
       div += '</div>';
 
       div += '<label class="col-sm-1 control-label">Capteur</label>';
-      div += '<div class="col-sm-2">';
+      div += '<div class="col-sm-3">';
         div += '<div class="input-group">';
           div += '<input class="expressionAttr form-control cmdInfo" data-l1key="cmd" />';
           div += '<span class="input-group-btn">';
@@ -184,7 +184,14 @@ function addAction(_action, _type) {
         div += '</div>';
       div += '</div>';
 
-      div += '<div class="col-sm-7 actionOptions">';
+      if(_type == 'action_alert_bt'){
+        div += '<label class="col-sm-2 control-label">{{Délai avant exécution (min)}} <sup><i class="fas fa-question-circle tooltips" title="{{Le délai doit être donné par rapport au déclenchement de l\'alerte initiale et non par rapport à l\'action précédente. Ne pas remplir ou 0 pour déclenchement immédiat}}"></i></sup></label>';
+        div += '<div class="col-sm-1">';
+          div += '<input type="number" class="expressionAttr form-control cmdInfo" data-l1key="action_timer"/>';
+        div += '</div>';
+      }
+
+      div += '<div class="col-sm-1 actionOptions">';
         div += jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options);
       div += '</div>';
 
@@ -203,6 +210,7 @@ function saveEqLogic(_eqLogic) {
 
   _eqLogic.configuration.alert_bt = $('#div_alert_bt .alert_bt').getValues('.expressionAttr');
   _eqLogic.configuration.action_alert_bt = $('#div_action_alert_bt .action_alert_bt').getValues('.expressionAttr');
+  _eqLogic.configuration.action_ar_alert_bt = $('#div_action_ar_alert_bt .action_ar_alert_bt').getValues('.expressionAttr');
   _eqLogic.configuration.cancel_alert_bt = $('#div_cancel_alert_bt .cancel_alert_bt').getValues('.expressionAttr');
   _eqLogic.configuration.action_cancel_alert_bt = $('#div_action_cancel_alert_bt .action_cancel_alert_bt').getValues('.expressionAttr');
 
@@ -214,6 +222,7 @@ function printEqLogic(_eqLogic) {
 
   $('#div_alert_bt').empty();
   $('#div_action_alert_bt').empty();
+  $('#div_action_ar_alert_bt').empty();
   $('#div_cancel_alert_bt').empty();
   $('#div_action_cancel_alert_bt').empty();
 
@@ -226,6 +235,11 @@ function printEqLogic(_eqLogic) {
     if (isset(_eqLogic.configuration.action_alert_bt)) {
       for (var i in _eqLogic.configuration.action_alert_bt) {
         addAction(_eqLogic.configuration.action_alert_bt[i], 'action_alert_bt');
+      }
+    }
+    if (isset(_eqLogic.configuration.action_ar_alert_bt)) {
+      for (var i in _eqLogic.configuration.action_ar_alert_bt) {
+        addAction(_eqLogic.configuration.action_ar_alert_bt[i], 'action_ar_alert_bt');
       }
     }
     if (isset(_eqLogic.configuration.cancel_alert_bt)) {

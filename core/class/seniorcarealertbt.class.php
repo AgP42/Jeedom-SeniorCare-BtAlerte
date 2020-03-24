@@ -25,7 +25,13 @@ class seniorcarealertbt extends eqLogic {
 
 
     /*     * ***********************Methode static*************************** */
+    public static function buttonAlertAR($_option) { // fct appelée par le listener de la commande API pour l'accusé de reception de l'alerte
+      log::add('seniorcarealertbt', 'debug', '################ Reception d\'un AR pour l\'alerte ############');
 
+ //    $seniorcarealertbt = seniorcarealertbt::byId($_option['seniorcarealertbt_id']); // on cherche la personne correspondant au bouton d'alerte
+  //    $seniorcarealertbt->execActions('action_alert_bt'); // on appelle les actions definies pour cette personne pour les boutons d'alertes
+
+    }
 
     public static function buttonAlert($_option) { // fct appelée par le listener des buttons d'alerte, n'importe quel bouton arrive ici
       log::add('seniorcarealertbt', 'debug', '################ Detection d\'un trigger d\'un bouton d\'alerte ############');
@@ -153,8 +159,21 @@ class seniorcarealertbt extends eqLogic {
 
     }
 
+    // Méthode appellée après la création de votre objet --> on va créer la commande pour l'AR
     public function postInsert() {
-
+      $cmd = $this->getCmd(null, 'alerte_bt_ar');
+      if (!is_object($cmd)) {
+        $cmd = new seniorcarealertbtCmd();
+        $cmd->setName(__('AR Bouton Alerte', __FILE__));
+      }
+      $cmd->setLogicalId('alerte_bt_ar');
+      $cmd->setEqLogic_id($this->getId());
+      $cmd->setType('info');
+      $cmd->setSubType('binary');
+      $cmd->setIsVisible(0);
+      $cmd->setIsHistorized(1);
+      $cmd->setConfiguration('historizeMode', 'none');
+      $cmd->save();
     }
 
     public function preSave() {
@@ -260,21 +279,13 @@ class seniorcarealertbt extends eqLogic {
         foreach ($this->getCmd() as $cmd) {
 
           // on assigne la fonction selon le type de capteur
-          /*if ($cmd->getLogicalId() == 'sensor_life_sign') {
-            $listenerFunction = 'sensorLifeSign';
-          } else*/
           if ($cmd->getLogicalId() == 'sensor_alert_bt'){
             $listenerFunction = 'buttonAlert';
-        /*  } else if ($cmd->getLogicalId() == 'sensor_confort'){
-            continue; // on veut pas de listener pour les capteurs confort ! Donc on coupe la boucle et on passe au prochain cmd
-        //    $listenerFunction = 'sensorConfort';
-          } else if ($cmd->getLogicalId() == 'sensor_security'){
-            $listenerFunction = 'sensorSecurity';*/
           } else if ($cmd->getLogicalId() == 'sensor_cancel_alert_bt'){
             $listenerFunction = 'buttonAlertCancel';
-          } /*else if ($cmd->getLogicalId() == 'sensor_cancel_security'){
-            $listenerFunction = 'sensorSecurityCancel';
-          }*/
+          } else if ($cmd->getLogicalId() == 'alerte_bt_ar'){
+            $listenerFunction = 'buttonAlertAR';
+          }
 
           // on set le listener associée
           $listener = listener::byClassAndFunction('seniorcarealertbt', $listenerFunction, array('seniorcarealertbt_id' => intval($this->getId())));
