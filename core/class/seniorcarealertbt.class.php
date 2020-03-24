@@ -155,6 +155,11 @@ class seniorcarealertbt extends eqLogic {
 
     }
 
+    public function btAlertAR() {
+      log::add('seniorcarealertbt', 'debug', 'ICI LES ACTIONS QUAND ON A APPELE L\'AR');
+      $this->execActions('action_ar_alert_bt'); // on appelle les actions definies pour cette personne pour les boutons d'alertes
+    }
+
     public function preInsert() {
 
     }
@@ -168,8 +173,8 @@ class seniorcarealertbt extends eqLogic {
       }
       $cmd->setLogicalId('alerte_bt_ar');
       $cmd->setEqLogic_id($this->getId());
-      $cmd->setType('info');
-      $cmd->setSubType('binary');
+      $cmd->setType('action');
+      $cmd->setSubType('other');
       $cmd->setIsVisible(0);
       $cmd->setIsHistorized(1);
       $cmd->setConfiguration('historizeMode', 'none');
@@ -391,9 +396,17 @@ class seniorcarealertbtCmd extends cmd {
 
     public function execute($_options = array()) {
 
-      log::add('seniorcarealertbt', 'debug', 'Fct execute pour : ' . $this->getLogicalId() . $this->getHumanName() . '- valeur renvoyée : ' . jeedom::evaluateExpression($this->getValue()));
 
-      return jeedom::evaluateExpression($this->getValue());
+      if ($this->getLogicalId() == 'alerte_bt_ar') {
+       // log::add('seniorcarealertbt', 'debug', 'Appel de l AR via API');
+        $eqLogic = $this->getEqLogic();
+        $eqLogic->btAlertAR();
+      } else { // sinon c'est un sensor et on veut juste sa valeur
+
+        log::add('seniorcarealertbt', 'debug', 'Fct execute pour : ' . $this->getLogicalId() . $this->getHumanName() . '- valeur renvoyée : ' . jeedom::evaluateExpression($this->getValue()));
+
+        return jeedom::evaluateExpression($this->getValue());
+      }
 
     }
 
