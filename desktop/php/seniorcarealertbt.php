@@ -68,11 +68,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
       <br/>
       <form class="form-horizontal">
         <fieldset>
+          <legend><i class="fas fa-tachometer-alt"></i> {{Informations Jeedom}} </legend>
           <div class="form-group">
-            <label class="col-sm-3 control-label">{{Nom de la personne dépendante}}</label>
+            <label class="col-sm-3 control-label">{{Nom Jeedom}}</label>
             <div class="col-sm-3">
               <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-              <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de la personne dépendante}}"/>
+              <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom }}"/>
             </div>
           </div>
           <div class="form-group">
@@ -109,6 +110,55 @@ $eqLogics = eqLogic::byType($plugin->getId());
         	</div>
         </fieldset>
       </form>
+
+      <form class="form-horizontal">
+        <fieldset>
+          <legend><i class="fas fa-user-edit"></i> {{Informations concernant la personne dépendante}} </legend>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">{{Nom }}</label>
+            <div class="col-sm-3">
+              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="senior_name" placeholder="{{Nom de la personne dépendante}}"/>
+            </div>
+            <div class="col-sm-3">{{tag <strong>#senior_name#</strong>}}</div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">{{Téléphone }}</label>
+            <div class="col-sm-3">
+              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="senior_tel" placeholder="{{Numéro de téléphone de la personne dépendante}}"/>
+            </div>
+            <div class="col-sm-3">{{tag <strong>#senior_tel#</strong>}}</div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">{{Adresse ou n° logement }}</label>
+            <div class="col-sm-3">
+              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="senior_address" placeholder="{{Adresse ou n° logement de la personne dépendante}}"/>
+            </div>
+            <div class="col-sm-3">{{tag <strong>#senior_address#</strong>}}</div>
+          </div>
+
+          <br>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">{{Nom personne de référence }}</label>
+            <div class="col-sm-3">
+              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="senior_ref_person" placeholder="{{Nom de la personne de référence}}"/>
+            </div>
+            <div class="col-sm-3">{{tag <strong>#senior_ref_person#</strong>}}</div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">{{Téléphone personne de référence }}</label>
+            <div class="col-sm-3">
+              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="senior_ref_person_tel" placeholder="{{Numéro de téléphone de la personne de référence}}"/>
+            </div>
+            <div class="col-sm-3">{{tag <strong>#senior_ref_person_tel#</strong>}}</div>
+          </div>
+        </fieldset>
+      </form>
+
     </div>
 
     <!-- TAB Capteurs Bouton alerte -->

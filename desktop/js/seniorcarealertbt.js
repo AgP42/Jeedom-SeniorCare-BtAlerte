@@ -194,6 +194,11 @@ function addAction(_action, _type) {
         div += '<div class="col-sm-1">';
           div += '<input type="text" class="expressionAttr form-control cmdInfo" data-l1key="action_label"/>';
         div += '</div>';
+      } else {
+        div += '<label class="col-sm-2 control-label">{{Uniquement si ce label a été exécuté}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner un label si vous devez lier des actions de désactivations à cette action}}"></i></sup></label>';
+        div += '<div class="col-sm-1">';
+          div += '<input type="text" class="expressionAttr form-control cmdInfo" data-l1key="action_label_liee"/>';
+        div += '</div>';
       }
 
       div += '<div class="col-sm-1 actionOptions">';

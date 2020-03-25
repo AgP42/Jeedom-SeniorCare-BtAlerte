@@ -270,6 +270,8 @@ class seniorcarealertbt extends eqLogic {
             $listenerFunction = 'buttonAlert';
           } else if ($cmd->getLogicalId() == 'sensor_cancel_alert_bt'){
             $listenerFunction = 'buttonAlertCancel';
+          } else {
+            continue; // sinon c'est que c'est pas un truc auquel on veut assigner un listener, on passe notre tour
           }
 
           // on set le listener associée
