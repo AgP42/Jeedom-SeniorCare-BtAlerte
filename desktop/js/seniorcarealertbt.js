@@ -170,8 +170,25 @@ function addAction(_action, _type) {
   var div = '<div class="' + _type + '">';
     div += '<div class="form-group ">';
 
+      if(_type == 'action_alert_bt'){ // pour les actions d'alertes,, on ajoute un label et un timer
+        div += '<label class="col-sm-1 control-label">{{Action label}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner un label si vous devez lier des actions de désactivations à cette action}}"></i></sup></label>';
+        div += '<div class="col-sm-1">';
+          div += '<input type="text" class="expressionAttr form-control cmdInfo" data-l1key="action_label"/>';
+        div += '</div>';
+
+        div += '<label class="col-sm-1 control-label">{{Délai avant exécution (min)}} <sup><i class="fas fa-question-circle tooltips" title="{{Le délai doit être donné par rapport au déclenchement de l\'alerte initiale et non par rapport à l\'action précédente. Ne pas remplir ou 0 pour déclenchement immédiat}}"></i></sup></label>';
+        div += '<div class="col-sm-1">';
+          div += '<input type="number" class="expressionAttr form-control cmdInfo" data-l1key="action_timer"/>';
+        div += '</div>';
+      } else { // pour les actions à la reception d'1 AR ou d'annulation d'alerte, on ajoute le label de l'action d'alerte à lier
+        div += '<label class="col-sm-2 control-label">{{Uniquement si ce label a été exécuté}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner le label de l\'action de référence. Cette action ne sera exécutée que si l\'action de référence a été précédemment exécutée. }}"></i></sup></label>';
+        div += '<div class="col-sm-1">';
+          div += '<input type="text" class="expressionAttr form-control cmdInfo" data-l1key="action_label_liee"/>';
+        div += '</div>';
+      }
+
       div += '<label class="col-sm-1 control-label">Action</label>';
-      div += '<div class="col-sm-4">';
+      div += '<div class="col-sm-2">';
         div += '<div class="input-group">';
           div += '<span class="input-group-btn">';
             div += '<a class="btn btn-default bt_removeAction roundedLeft" data-type="' + _type + '"><i class="fas fa-minus-circle"></i></a>';
@@ -184,24 +201,7 @@ function addAction(_action, _type) {
         div += '</div>';
       div += '</div>';
 
-      if(_type == 'action_alert_bt'){
-        div += '<label class="col-sm-2 control-label">{{Délai avant exécution (min)}} <sup><i class="fas fa-question-circle tooltips" title="{{Le délai doit être donné par rapport au déclenchement de l\'alerte initiale et non par rapport à l\'action précédente. Ne pas remplir ou 0 pour déclenchement immédiat}}"></i></sup></label>';
-        div += '<div class="col-sm-1">';
-          div += '<input type="number" class="expressionAttr form-control cmdInfo" data-l1key="action_timer"/>';
-        div += '</div>';
-
-        div += '<label class="col-sm-2 control-label">{{Action label}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner un label si vous devez lier des actions de désactivations à cette action}}"></i></sup></label>';
-        div += '<div class="col-sm-1">';
-          div += '<input type="text" class="expressionAttr form-control cmdInfo" data-l1key="action_label"/>';
-        div += '</div>';
-      } else {
-        div += '<label class="col-sm-2 control-label">{{Uniquement si ce label a été exécuté}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner un label si vous devez lier des actions de désactivations à cette action}}"></i></sup></label>';
-        div += '<div class="col-sm-1">';
-          div += '<input type="text" class="expressionAttr form-control cmdInfo" data-l1key="action_label_liee"/>';
-        div += '</div>';
-      }
-
-      div += '<div class="col-sm-1 actionOptions">';
+      div += '<div class="col-sm-5 actionOptions">'; // on laisse la place pour afficher les champs "message" ou autre selon les options associées à l'action choisie par l'utilisateur si besoin
         div += jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options);
       div += '</div>';
 
