@@ -30,15 +30,65 @@ class seniorcarealertbt extends eqLogic {
       log::add('seniorcarealertbt', 'debug', '################ Detection d\'un trigger d\'un bouton d\'alerte ############');
 
       $seniorcarealertbt = seniorcarealertbt::byId($_option['seniorcarealertbt_id']); // on cherche la personne correspondant au bouton d'alerte
-      $seniorcarealertbt->execActions('action_alert_bt'); // on appelle les actions definies pour cette personne pour les boutons d'alertes
+
+      foreach ($seniorcarealertbt->getConfiguration('action_alert_bt') as $action) { // pour toutes les actions définies
+        log::add('seniorcarealertbt', 'debug', 'Config Action bouton d\'alerte : ' . $action['action_label'] . ' - ' . $action['action_timer']);
+
+        if(is_numeric($action['action_timer']) && $action['action_timer'] > 0){ // si on a un timer bien defini et > 0 min, on va lancer un cron pour l'execution retardée de l'action
+          //TODO : vérifier que CRON existe pas encore pour cette fonction et ce label et cette personne, si non : set CRON
+          // on vérifie que le cron existe pas encore pour ne pas retarder l'appel en cas de multi appui d'alerte. Et on veut pas non plus setter plusieurs CRON pour la meme action
+        }else{ // sinon, on execute tout de suite.
+          // C'est volontaire de ne pas vérifier que l'action a déjà été lancée, ca permet de relancer alerte si la personne redemande et aussi de lancer quand meme l'action si aucune action "annulation" n'est définie donc que le cache ne se remet jamais a 0...
+          // TODO : on pourrait quand meme mettre une tempo pour filtrer 40 appuis sur le bouton... à voir !
+          log::add('seniorcarealertbt', 'debug', 'Pas de timer liée, on execute ' . $action['cmd']);
+
+          $seniorcarealertbt->execAction($action);
+        }
+
+      } // fin foreach toutes les actions
+
+    //  $seniorcarealertbt->execActions('action_alert_bt'); // on appelle les actions definies pour cette personne pour les boutons d'alertes
 
     }
 
     public static function buttonAlertCancel($_option) { // fct appelée par le listener des buttons d'annulation d'alerte, n'importe quel bouton arrive ici
+
       log::add('seniorcarealertbt', 'debug', '################ Detection d\'un trigger d\'un bouton d\'annulation d\'alerte ############');
 
       $seniorcarealertbt = seniorcarealertbt::byId($_option['seniorcarealertbt_id']); // on cherche la personne correspondant au bouton d'alerte
-      $seniorcarealertbt->execActions('action_cancel_alert_bt'); // on appelle les actions definies pour cette personne pour les boutons d'alertes
+
+      foreach ($seniorcarealertbt->getConfiguration('action_cancel_alert_bt') as $action) { // pour toutes les actions définies
+
+        $execActionLiee = $seniorcarealertbt->getCache('execAction_'.$action['action_label_liee']); // on la lire le cache d'execution de l'action liée
+
+        log::add('seniorcarealertbt', 'debug', 'Config Action Accusé Réception bouton d\'alerte, action : '. $action['cmd'] .', label action liée : ' . $action['action_label_liee'] . ' - action liée deja executée : ' . $execActionLiee);
+
+        if($action['action_label_liee'] == ''){ // si pas d'action liée, on execute direct
+
+          log::add('seniorcarealertbt', 'debug', 'Pas d\'action liée, on execute ' . $action['cmd']);
+
+          $seniorcarealertbt->execAction($action);
+
+        }else if(isset($action['action_label_liee']) && $action['action_label_liee'] != '' && $execActionLiee == 1){ // si on a une action liée définie et qu'elle a été executée => on execute notre action et on remet le cache de l'action liée à 0 (fait uniquement pour les boutons d'annulation et non à la reception de l'AR)
+
+          log::add('seniorcarealertbt', 'debug', 'Action liée ('.$action['action_label_liee'].') executée précédemment, donc on execute ' . $action['cmd'] . ' et remise à 0 du cache d\'exec de l\'action origine');
+
+          $seniorcarealertbt->execAction($action);
+
+          $seniorcarealertbt->setCache('execAction_'.$action['action_label_liee'], 0);
+
+        }else{ // sinon, on log qu'on ne l'execute pas
+          log::add('seniorcarealertbt', 'debug', 'Action liée ('.$action['action_label_liee'].') non executée précédemment, donc on execute pas ' . $action['cmd']);
+          //TODO : ecrire dans la doc que lier un label qui n'existe pas fait qu'on executera jamais l'action...
+        } //*/
+
+      } // fin foreach toutes les actions
+
+      //TODO : couper les CRON des actions d'alertes non encore appelés
+
+
+
+    //  $seniorcarealertbt->execActions('action_cancel_alert_bt'); // on appelle les actions definies pour cette personne pour les boutons d'alertes
 
     }
 
@@ -86,7 +136,48 @@ class seniorcarealertbt extends eqLogic {
 
     /*     * *********************Méthodes d'instance************************* */
 
+    public function execAction($action) { // execution d'une seule action, avec son label si c'est une alerte
+    // $this doit rester l'eqLogic et non la commande elle meme, pour chopper les tags
 
+      log::add('seniorcarealertbt', 'debug', '################ Execution de l\' actions ' . $_config . ' pour ' . $this->getName() .  ' ############');
+
+      try {
+        $options = array(); // va permettre d'appeler les options de configuration des actions, par exemple un scenario un message
+        if (isset($action['options'])) {
+          $options = $action['options'];
+          foreach ($options as $key => $value) { // ici on peut définir les "tag" de configuration qui seront à remplacer par des variables
+            // str_replace ($search, $replace, $subject) retourne une chaîne ou un tableau, dont toutes les occurrences de search dans subject ont été remplacées par replace.
+            $value = str_replace('#senior_name#', $this->getConfiguration('senior_name'), $value);
+            $value = str_replace('#senior_tel#', $this->getConfiguration('senior_tel'), $value);
+            $value = str_replace('#senior_address#', $this->getConfiguration('senior_address'), $value);
+
+            $value = str_replace('#senior_ref_person#', $this->getConfiguration('senior_ref_person'), $value);
+            $value = str_replace('#senior_ref_person_tel#', $this->getConfiguration('senior_ref_person_tel'), $value);
+
+            $value = str_replace('#sensor_name#', $_sensor_name, $value);
+            $value = str_replace('#sensor_type#', $_sensor_type, $value);
+            $options[$key] = str_replace('#sensor_value#', $_sensor_value, $value);
+          }
+        }
+        scenarioExpression::createAndExec('action', $action['cmd'], $options);
+
+        if(isset($action['action_label'])){ // si on avait un label (donc c'est une action d'alerte), on memorise qu'on a lancé l'action
+          $this->setCache('execAction_'.$action['action_label'], 1);
+          log::add('seniorcarealertbt', 'debug', 'setCache TRUE pour label : ' . $action['action_label']);
+        }
+
+      } catch (Exception $e) {
+        log::add('seniorcarealertbt', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+
+        if(isset($action['action_label'])){ // en cas d'erreur d'execution, on memorise qu'on a pas pu lancer l'action !
+          $this->setCache('execAction_'.$action['action_label'], 0);
+        }
+
+      }
+
+    }
+
+//TODO : sera a virer
     public function execActions($_config, $_sensor_name = NULL, $_sensor_type = NULL, $_sensor_value = NULL) { // on donne le type d'action en argument et ca nous execute toute la liste. Les autres arguments sont pour les tag des messages si applicable
 
       log::add('seniorcarealertbt', 'debug', '################ Execution des actions du type ' . $_config . ' pour ' . $this->getName() .  ' ############');
@@ -122,11 +213,32 @@ class seniorcarealertbt extends eqLogic {
 
       log::add('seniorcarealertbt', 'debug', '################ Detection de l\'appel AR ############');
 
-      $this->execActions('action_ar_alert_bt'); // on appelle les actions definies pour cette personne pour L'AR
+      foreach ($this->getConfiguration('action_ar_alert_bt') as $action) { // pour toutes les actions définies
 
+        $execActionLiee = $this->getCache('execAction_'.$action['action_label_liee']);
 
-      //TODO : couper les actions d'alertes non encore appelés
+        log::add('seniorcarealertbt', 'debug', 'Config Action Accusé Réception bouton d\'alerte, action : '. $action['cmd'] .', label action liée : ' . $action['action_label_liee'] . ' - action liée deja executée : ' . $execActionLiee);
 
+        if($action['action_label_liee'] == ''){ // si pas d'action liée, on execute direct
+
+          log::add('seniorcarealertbt', 'debug', 'Pas d\'action liée, on execute ' . $action['cmd']);
+
+          $this->execAction($action);
+
+        }else if(isset($action['action_label_liee']) && $action['action_label_liee'] != '' && $execActionLiee == 1){ // si on a une action liée définie et qu'elle a été executée => on execute notre action
+
+          log::add('seniorcarealertbt', 'debug', 'Action liée ('.$action['action_label_liee'].') executée précédemment, donc on execute ' . $action['cmd']);
+
+          $this->execAction($action);
+
+        }else{ // sinon, on log qu'on ne l'execute pas
+          log::add('seniorcarealertbt', 'debug', 'Action liée ('.$action['action_label_liee'].') non executée précédemment, donc on execute pas ' . $action['cmd']);
+          //TODO : ecrire dans la doc que lier un label qui n'existe pas fait qu'on executera jamais l'action...
+        } //*/
+
+      } // fin foreach toutes les actions
+
+      //TODO : couper les CRON des actions d'alertes non encore appelés
 
     }
 

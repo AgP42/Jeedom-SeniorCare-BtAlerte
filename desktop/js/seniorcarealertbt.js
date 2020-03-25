@@ -171,7 +171,7 @@ function addAction(_action, _type) {
     div += '<div class="form-group ">';
 
       if(_type == 'action_alert_bt'){ // pour les actions d'alertes,, on ajoute un label et un timer
-        div += '<label class="col-sm-1 control-label">{{Action label}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner un label si vous devez lier des actions de désactivations à cette action}}"></i></sup></label>';
+        div += '<label class="col-sm-1 control-label">{{Action label}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner un label si vous voulez lier des actions de désactivations à cette action}}"></i></sup></label>';
         div += '<div class="col-sm-1">';
           div += '<input type="text" class="expressionAttr form-control cmdInfo" data-l1key="action_label"/>';
         div += '</div>';
