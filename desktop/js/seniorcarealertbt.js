@@ -189,6 +189,11 @@ function addAction(_action, _type) {
         div += '<div class="col-sm-1">';
           div += '<input type="number" class="expressionAttr form-control cmdInfo" data-l1key="action_timer"/>';
         div += '</div>';
+
+        div += '<label class="col-sm-2 control-label">{{Action label}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner un label si vous devez lier des actions de désactivations à cette action}}"></i></sup></label>';
+        div += '<div class="col-sm-1">';
+          div += '<input type="text" class="expressionAttr form-control cmdInfo" data-l1key="action_label"/>';
+        div += '</div>';
       }
 
       div += '<div class="col-sm-1 actionOptions">';

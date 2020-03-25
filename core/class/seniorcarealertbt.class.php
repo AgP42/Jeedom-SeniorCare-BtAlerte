@@ -25,13 +25,6 @@ class seniorcarealertbt extends eqLogic {
 
 
     /*     * ***********************Methode static*************************** */
-    public static function buttonAlertAR($_option) { // fct appelée par le listener de la commande API pour l'accusé de reception de l'alerte
-      log::add('seniorcarealertbt', 'debug', '################ Reception d\'un AR pour l\'alerte ############');
-
- //    $seniorcarealertbt = seniorcarealertbt::byId($_option['seniorcarealertbt_id']); // on cherche la personne correspondant au bouton d'alerte
-  //    $seniorcarealertbt->execActions('action_alert_bt'); // on appelle les actions definies pour cette personne pour les boutons d'alertes
-
-    }
 
     public static function buttonAlert($_option) { // fct appelée par le listener des buttons d'alerte, n'importe quel bouton arrive ici
       log::add('seniorcarealertbt', 'debug', '################ Detection d\'un trigger d\'un bouton d\'alerte ############');
@@ -91,9 +84,10 @@ class seniorcarealertbt extends eqLogic {
      */
 
 
+    /*     * *********************Méthodes d'instance************************* */
 
 
-    public function execActions($_config, $_sensor_name = NULL, $_sensor_type = NULL, $_sensor_value = NULL, $_seuilBas = NULL, $_seuilHaut = NULL) { // on donne le type d'action en argument et ca nous execute toute la liste. Les autres arguments sont pour les tag des messages si applicable
+    public function execActions($_config, $_sensor_name = NULL, $_sensor_type = NULL, $_sensor_value = NULL) { // on donne le type d'action en argument et ca nous execute toute la liste. Les autres arguments sont pour les tag des messages si applicable
 
       log::add('seniorcarealertbt', 'debug', '################ Execution des actions du type ' . $_config . ' pour ' . $this->getName() .  ' ############');
 
@@ -107,24 +101,7 @@ class seniorcarealertbt extends eqLogic {
               $value = str_replace('#senior_name#', $this->getName(), $value);
               $value = str_replace('#sensor_name#', $_sensor_name, $value);
               $value = str_replace('#sensor_type#', $_sensor_type, $value);
-              $value = str_replace('#sensor_value#', $_sensor_value, $value);
-              $value = str_replace('#low_threshold#', $_seuilBas, $value);
-              switch ($_sensor_type) {
-                  case 'temperature':
-                      $unit = '°C';
-                      break;
-                  case 'humidity':
-                      $unit = '%';
-                      break;
-                  case 'co2':
-                      $unit = 'ppm';
-                      break;
-                  default:
-                      $unit = '';
-                      break;
-              }
-              $value = str_replace('#unit#', $unit, $value);
-              $options[$key] = str_replace('#high_threshold#', $_seuilHaut, $value);
+              $options[$key] = str_replace('#sensor_value#', $_sensor_value, $value);
             }
           }
           scenarioExpression::createAndExec('action', $action['cmd'], $options);
@@ -135,7 +112,17 @@ class seniorcarealertbt extends eqLogic {
 
     }
 
-    /*     * *********************Méthodes d'instance************************* */
+    public function btAlertAR() { // fct appelée par la cmd action appelée par l'extérieur pour faire AR de l'alerte en cours
+
+      log::add('seniorcarealertbt', 'debug', '################ Detection de l\'appel AR ############');
+
+      $this->execActions('action_ar_alert_bt'); // on appelle les actions definies pour cette personne pour L'AR
+
+
+      //TODO : couper les actions d'alertes non encore appelés
+
+
+    }
 
     public function cleanAllListener() {
 
@@ -153,11 +140,6 @@ class seniorcarealertbt extends eqLogic {
 
       }
 
-    }
-
-    public function btAlertAR() {
-      log::add('seniorcarealertbt', 'debug', 'ICI LES ACTIONS QUAND ON A APPELE L\'AR');
-      $this->execActions('action_ar_alert_bt'); // on appelle les actions definies pour cette personne pour les boutons d'alertes
     }
 
     public function preInsert() {
@@ -288,8 +270,6 @@ class seniorcarealertbt extends eqLogic {
             $listenerFunction = 'buttonAlert';
           } else if ($cmd->getLogicalId() == 'sensor_cancel_alert_bt'){
             $listenerFunction = 'buttonAlertCancel';
-          } else if ($cmd->getLogicalId() == 'alerte_bt_ar'){
-            $listenerFunction = 'buttonAlertAR';
           }
 
           // on set le listener associée
