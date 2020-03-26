@@ -163,6 +163,8 @@ class seniorcarealertbt extends eqLogic {
             $value = str_replace('#senior_ref_person#', $this->getConfiguration('senior_ref_person'), $value);
             $value = str_replace('#senior_ref_person_tel#', $this->getConfiguration('senior_ref_person_tel'), $value);
 
+      //      $value = str_replace('#url_ar#', $this->getConfiguration('url_ar'), $value); // marche pas malheureusement, probablement une histoire de formatage... TODO...
+
             $value = str_replace('#sensor_name#', $_sensor_name, $value);
             $value = str_replace('#sensor_type#', $_sensor_type, $value);
             $options[$key] = str_replace('#sensor_value#', $_sensor_value, $value);
@@ -273,7 +275,8 @@ class seniorcarealertbt extends eqLogic {
       $cmd->setSubType('other');
       $cmd->setIsVisible(0);
       $cmd->setIsHistorized(1);
-      $cmd->setConfiguration('historizeMode', 'none'); //on garde en mémoire tous les AR recu. //TODO : voir comment on pourrait avoir l'info de "qui" a accusé réception...
+      $cmd->setConfiguration('historizeMode', 'none'); //on garde en mémoire tous les AR recu.
+      //TODO : voir comment on pourrait avoir l'info de "qui" a accusé réception...
       $cmd->save();
     }
 
@@ -281,7 +284,13 @@ class seniorcarealertbt extends eqLogic {
 
       //supprime les CRON des actions d'alertes non encore appelés, affiche une alerte s'il y en avait
       //sert à ne pas laisser trainer des CRONs en cours si on change le message ou le label puis en enregistre. Cas exceptionnel, mais au cas où...
+
+      $calculstarttime = date('H:i:s');
+
       $this->cleanAllCron(true);
+
+      log::add('seniorcarealertbt', 'debug', 'cleanAllCron start à ' . $calculstarttime . ' fin à : ' . date('H:i:s'));
+
 
     }
 
@@ -410,6 +419,17 @@ class seniorcarealertbt extends eqLogic {
         $this->cleanAllListener();
 
       }
+
+      //########## 5 - Divers #########//
+
+      // on pouvait pas le faire à la creation de la cmd donc on le fait dans le postSave : on prend l'url et on l'enregistre en configuration
+      /* //sauf que le tag marche pas, donc sert à rien, je vire pour l'instant, à voir TODO
+      $cmd = $this->getCmd(null, 'alerte_bt_ar');
+      if (is_object($cmd)) {
+        $cmd->setConfiguration('url_ar', $cmd->getDirectUrlAccess());
+        $cmd->save();
+      } //*/
+
 
     } // fin fct postSave
 
