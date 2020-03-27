@@ -171,7 +171,7 @@ function addAction(_action, _type) {
     div += '<div class="form-group ">';
 
       if(_type == 'action_alert_bt'){ // pour les actions d'alertes,, on ajoute un label et un timer
-        div += '<label class="col-sm-1 control-label">{{Action label}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner un label si vous voulez lier des actions de désactivations à cette action}}"></i></sup></label>';
+        div += '<label class="col-sm-1 control-label">{{Label}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner un label si vous voulez lier des actions de désactivations à cette action}}"></i></sup></label>';
         div += '<div class="col-sm-1">';
           div += '<input type="text" class="expressionAttr form-control cmdInfo" data-l1key="action_label"/>';
         div += '</div>';
@@ -181,7 +181,7 @@ function addAction(_action, _type) {
           div += '<input type="number" class="expressionAttr form-control cmdInfo" data-l1key="action_timer"/>';
         div += '</div>';
       } else { // pour les actions à la reception d'1 AR ou d'annulation d'alerte, on ajoute le label de l'action d'alerte à lier
-        div += '<label class="col-sm-2 control-label">{{Uniquement si ce label a été exécuté}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner le label de l\'action de référence. Cette action ne sera exécutée que si l\'action de référence a été précédemment exécutée. }}"></i></sup></label>';
+        div += '<label class="col-sm-2 control-label">{{Label action de référence}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner le label de l\'action de référence. Cette action ne sera exécutée que si l\'action de référence a été précédemment exécutée. }}"></i></sup></label>';
         div += '<div class="col-sm-1">';
           div += '<input type="text" class="expressionAttr form-control cmdInfo" data-l1key="action_label_liee"/>';
         div += '</div>';

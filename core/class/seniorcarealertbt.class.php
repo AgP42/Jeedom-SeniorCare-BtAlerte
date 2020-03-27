@@ -157,16 +157,16 @@ class seniorcarealertbt extends eqLogic {
           foreach ($options as $key => $value) { // ici on peut définir les "tag" de configuration qui seront à remplacer par des variables
             // str_replace ($search, $replace, $subject) retourne une chaîne ou un tableau, dont toutes les occurrences de search dans subject ont été remplacées par replace.
             $value = str_replace('#senior_name#', $this->getConfiguration('senior_name'), $value);
-            $value = str_replace('#senior_tel#', $this->getConfiguration('senior_tel'), $value);
+            $value = str_replace('#senior_phone#', $this->getConfiguration('senior_phone'), $value);
             $value = str_replace('#senior_address#', $this->getConfiguration('senior_address'), $value);
 
-            $value = str_replace('#senior_ref_person#', $this->getConfiguration('senior_ref_person'), $value);
-            $value = str_replace('#senior_ref_person_tel#', $this->getConfiguration('senior_ref_person_tel'), $value);
+            $value = str_replace('#trusted_person_name#', $this->getConfiguration('trusted_person_name'), $value);
+            $value = str_replace('#trusted_person_phone#', $this->getConfiguration('trusted_person_phone'), $value);
 
       //      $value = str_replace('#url_ar#', $this->getConfiguration('url_ar'), $value); // marche pas malheureusement, probablement une histoire de formatage... TODO...
 
-            $value = str_replace('#sensor_name#', $_sensor_name, $value);
-            $value = str_replace('#sensor_type#', $_sensor_type, $value);
+      //      $value = str_replace('#sensor_name#', $_sensor_name, $value);
+      //      $value = str_replace('#sensor_type#', $_sensor_type, $value);
             $options[$key] = str_replace('#sensor_value#', $_sensor_value, $value);
           }
         }

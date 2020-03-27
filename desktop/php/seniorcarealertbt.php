@@ -126,9 +126,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
           <div class="form-group">
             <label class="col-sm-3 control-label">{{Téléphone }}</label>
             <div class="col-sm-3">
-              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="senior_tel" placeholder="{{Numéro de téléphone de la personne dépendante}}"/>
+              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="senior_phone" placeholder="{{Numéro de téléphone de la personne dépendante}}"/>
             </div>
-            <div class="col-sm-3">{{tag <strong>#senior_tel#</strong>}}</div>
+            <div class="col-sm-3">{{tag <strong>#senior_phone#</strong>}}</div>
           </div>
 
           <div class="form-group">
@@ -144,17 +144,17 @@ $eqLogics = eqLogic::byType($plugin->getId());
           <div class="form-group">
             <label class="col-sm-3 control-label">{{Nom personne de référence }}</label>
             <div class="col-sm-3">
-              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="senior_ref_person" placeholder="{{Nom de la personne de référence}}"/>
+              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="trusted_person_name" placeholder="{{Nom de la personne de référence}}"/>
             </div>
-            <div class="col-sm-3">{{tag <strong>#senior_ref_person#</strong>}}</div>
+            <div class="col-sm-3">{{tag <strong>#trusted_person_name#</strong>}}</div>
           </div>
 
           <div class="form-group">
             <label class="col-sm-3 control-label">{{Téléphone personne de référence }}</label>
             <div class="col-sm-3">
-              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="senior_ref_person_tel" placeholder="{{Numéro de téléphone de la personne de référence}}"/>
+              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="trusted_person_phone" placeholder="{{Numéro de téléphone de la personne de référence}}"/>
             </div>
-            <div class="col-sm-3">{{tag <strong>#senior_ref_person_tel#</strong>}}</div>
+            <div class="col-sm-3">{{tag <strong>#trusted_person_phone#</strong>}}</div>
           </div>
         </fieldset>
       </form>
@@ -184,7 +184,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
       <br/>
       <div class="alert alert-info">
-        {{Onglet de configuration des actions d'alerte pour prévenir les aidants. Vous pouvez choisir plusieurs actions et un délai d'attente pour chacune. Les actions en attente ne seront pas exécutées si un accusé de reception est recu entre-temps, ou en cas d'annulation de l'alerte.}}
+        {{Onglet de configuration des actions d'alerte pour prévenir les aidants. Vous pouvez choisir plusieurs actions et un délai d'attente pour chacune. Les actions en attente ne seront pas exécutées si un accusé de reception est reçu entre-temps, ou en cas d'annulation de l'alerte.}}
       </div>
 
       <form class="form-horizontal">
@@ -234,7 +234,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
       <form class="form-horizontal">
         <fieldset>
-          <legend><i class="fas fa-hands-helping"></i> {{Actions à la réception d'un accusé de réception (pour prévenir la personne qu'un aidant arrive, je dois ?)}} <sup><i class="fas fa-question-circle tooltips" title="{{}}"></i></sup>
+          <legend><i class="fas fa-hands-helping"></i> {{Actions à la réception d'un accusé de réception}} <sup><i class="fas fa-question-circle tooltips" title="{{Actions pour prévenir la personne qu'un aidant arrive, ou prévenir les autres aidants que l'alerte est prise en compte}}"></i></sup>
             <a class="btn btn-success btn-sm addAction" data-type="action_ar_alert_bt" style="margin:5px;"><i class="fas fa-plus-circle"></i> {{Ajouter une action}}</a>
           </legend>
           <div id="div_action_ar_alert_bt"></div>
