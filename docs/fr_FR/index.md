@@ -30,22 +30,9 @@ Ce plugin est gratuit et open source, il est fourni sans garanti de bon fonction
 Changelog
 ==========
 
-Ce plugin est en cours de développement, toutes les fonctions ne sont pas encore codées, certaines n'ont été que partiellement testées.
+Ce plugin est en cours de développement, il est encore en versions beta pour tests.
 
-Beta 0.0.1 - 24 mars 2020
----
-
-* Gestion des boutons d'alerte immédiate
-* Création documentation
-
-Beta 0.0.2 - 26 mars 2020
----
-
-* Ajout de la possibilité d'un AR de l'alerte par les aidants
-* Ajout séquencement des actions d'alertes et lien entre elles pour ne déclencher les annulations que si l'action liée a été réalisée
-* Ajout des tags de configuration de la personne
-* Tests et debugs
-* Mise à jour documentation
+Voir le [Changelog](https://agp42.github.io/seniorcarealertbt/#language#/changelog)
 
 Principe de fonctionnement
 ========================
