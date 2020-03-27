@@ -32,7 +32,7 @@ Changelog
 
 Ce plugin est en cours de développement, il est encore en versions beta pour tests.
 
-Voir le [Changelog](https://agp42.github.io/seniorcarealertbt/#language#/changelog)
+Voir le [Changelog](https://agp42.github.io/seniorcarealertbt/fr_FR/changelog)
 
 Principe de fonctionnement
 ========================
