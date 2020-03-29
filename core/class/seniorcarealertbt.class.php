@@ -100,7 +100,7 @@ class seniorcarealertbt extends eqLogic {
 
         $execActionLiee = $seniorcarealertbt->getCache('execAction_'.$action['action_label_liee']); // on va lire le cache d'execution de l'action liée, savoir si deja lancé ou non...
 
-        log::add('seniorcarealertbt', 'debug', 'Config Action Accusé Réception bouton d\'alerte, action : '. $action['cmd'] .', label action liée : ' . $action['action_label_liee'] . ' - action liée deja executée : ' . $execActionLiee);
+        log::add('seniorcarealertbt', 'debug', 'Config Action Annulation bouton d\'alerte, action : '. $action['cmd'] .', label action liée : ' . $action['action_label_liee'] . ' - action liée deja executée : ' . $execActionLiee);
 
         if($action['action_label_liee'] == ''){ // si pas d'action liée, on execute direct
 
@@ -118,7 +118,6 @@ class seniorcarealertbt extends eqLogic {
 
         }else{ // sinon, on log qu'on n'execute pas l'action et la raison
           log::add('seniorcarealertbt', 'debug', 'Action liée ('.$action['action_label_liee'].') non executée précédemment, donc on execute pas ' . $action['cmd']);
-          //TODO : ecrire dans la doc que lier un label qui n'existe pas fait qu'on executera jamais l'action...
         }
 
       } // fin foreach toutes les actions

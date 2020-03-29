@@ -49,6 +49,9 @@ Ajouter les différentes personnes à suivre, puis pour chacune configurer les d
 
 Onglet **Général**
 ---
+
+![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/master/docs/assets/images/OngletGeneral.png)
+
 * **Informations Jeedom**
    * Indiquer le nom de la personne
    * Objet parent : il s'agit de l'objet Jeedom auquel rattacher la personne. Il doit être différent de "Aucun"
@@ -59,24 +62,27 @@ Onglet **Général**
 
 Vous pouvez saisir ici des informations sur la personne dépendante. Ces informations seront utilisées uniquement pour la saisie de tags dans les messages d'alertes, tous ces champs sont facultatifs.
 
-![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/master/docs/assets/images/OngletGeneral.png)
-
 Onglet **Boutons d'alerte**
 ---
+
 Cet onglet permet de regrouper différents boutons d'alertes immédiates que la personne pourra activer pour demander de l'aide. Il peut s'agir d'un bouton à porter sur soi ou de boutons dans une zone particulière. Il n'y a pas de limite de nombre de boutons.
+
+![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/master/docs/assets/images/OngletBoutons.png)
 
 * Cliquer sur "ajouter un bouton" pour définir un ou plusieurs capteurs de type "bouton" ou "interrupteur"
 * **Nom** : champs obligatoire
 * **Capteur** : champs obligatoire
 
-![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/master/docs/assets/images/OngletBoutons.png)
 
 Onglet **Actions d'alerte**
 ---
+
 Cet onglet permet de définir les actions à déclencher lorsqu'un bouton d'alerte est activé.
 
+![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/master/docs/assets/images/OngletActions.png)
+
 * Cliquer sur "ajouter une action" pour définir une ou plusieurs actions
-* **Action label** : Champs facultatif permettant de lier cette action aux actions lors de la réception d'un accusé de réception ou d'annulation.
+* **Label** : Champs facultatif permettant de lier cette action aux actions lors de la réception d'un accusé de réception ou d'annulation.
 * **Délai avant exécution (min)** :
    * ne pas remplir ou 0 : cette action sera exécutée immédiatement. En cas de multiples appels sur le bouton d'alerte, ces actions seront déclenchées à chaque appel.
    * valeur supérieure à 0 : cette action sera enregistrée dans le moteur de tâches Jeedom (cron) pour une exécution différée selon le délai saisi.
@@ -91,39 +97,42 @@ Remarques :
 
 * Si l'une de vos action est de type "message", vous pouvez utiliser les tags définis dans l'onglet **Général**
 
-![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/master/docs/assets/images/OngletActions.png)
 
 Onglet **Accusé de réception**
 ---
 Cet onglet fourni l'URL à appeler pour déclencher l'Accusé de Réception ainsi que définir les actions à réaliser lors de la réception de l'AR
+
+![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/master/docs/assets/images/OngletAR.png)
 
 * **Commande à appeler depuis l'extérieur pour accuser réception de l'alerte**
    * "Réglages/Système/Configuration/Réseaux" doit être correctement renseigné pour que l'adresse affichée soit fonctionnelle.
    * Vous pouvez cliquer sur le lien pour tester son bon fonctionnement
    * Cet URL peut être appelé par n'importe quel équipement extérieur, notamment un smartphone
 * **Actions à la réception d'un accusé de réception (pour prévenir la personne qu'un aidant arrive, je dois ?)**
-   * **Uniquement si ce label a été exécuté** :
+   * **Label action de référence** :
       * Vous pouvez ici saisir le label de l'action de référence de l'onglet "Actions d'alerte".
       * Le label saisi doit être strictement identique, attention aux espaces.
       * Lorsque le label est renseigné et correspond à une action d'alerte, il faut que l'action d'alerte de référence ait été précédemment lancée pour que la présente action s'exécute.
       * Attention, si vous renseignez un label qui n'existe pas (et donc ne sera jamais exécuté), l'action liée ne s'exécutera jamais.
-      * Exemple 1 : l'action d'alerte est d'envoyer un message à Mr x, 30 min après le déclenchement du bouton d'alerte (une alerte immédiate vers un autre aidant étant définie par ailleurs). L'action lors de l'AR est d'envoyer un message à Mr x pour le prévenir que quelqu'un à accusé réception de l'alerte. L'action d'AR ne sera exécutée que si l'action d'alerte initiale avait été exécutée à la fin de son délai de 30min. Ceci permet de ne pas envoyer des messages lors d'un AR alors que la personne n'avait pas reçu le message d'alerte initial.
+      * Exemple 1 : l'action d'alerte est d'envoyer un message à Mr x, 30 min après le déclenchement du bouton d'alerte (une alerte immédiate vers un autre aidant étant définie par ailleurs). L'action lors de l'AR est d'envoyer un message à Mr x pour le prévenir que quelqu'un a accusé réception de l'alerte. L'action d'AR ne sera exécutée que si l'action d'alerte initiale avait été exécutée à la fin de son délai de 30min. Ceci permet de ne pas envoyer des messages lors d'un AR alors que la personne n'avait pas reçu le message d'alerte initial.
       * Exemple 2 : l'action d'alerte est d'allumer immédiatement une lampe en orange (signaler à la personne que son bouton fonctionne et que l'alerte est envoyée). L'action d'AR est de passer cette lampe en vert lorsqu'un aidant a accusé réception de l'alerte. Il n'est ici pas nécessaire de définir un label pour les lier, car l'action initiale étant immédiate, il n'y a pas de risque d'annuler une action n'ayant jamais eu lieu.
    * **Action** : la commande jeedom correspondant à l'action voulue. L'action peut être de n'importe quel type : une lampe du logement, un message vers les aidants, l'appel d'un scenario jeedom, ... Si l'une de vos action est de type "message", vous pouvez utiliser les tags définis dans l'onglet **Général**
 
-![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/master/docs/assets/images/OngletAR.png)
-
+Lors de la réception d'un accusé de réception, toutes les actions d'alertes "futures" sont annulées.
 
 Onglet **Annulation d'alerte**
 ---
 Cet onglet permet de configurer des boutons et actions d'annulation d'alerte. Il s'agit ici de désactiver le mécanisme d'alerte lorsqu'un aidant arrive dans le logement ou si la personne se rend compte qu'elle a appuyé par erreur sur son bouton d'alerte.
 
+![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/master/docs/assets/images/OngletAnnulation.png)
+
 * Définir un ou plusieurs capteurs de type "bouton" ou "interrupteur" qui serviront à annuler l'alerte. Il est aussi possible de définir le capteur de porte du logement par exemple, mais alors il faut bien définir des labels pour toutes les actions, sinon les actions seront réalisées à chaque ouverture de porte du logement même si l'alerte n'a pas été déclenchée précédemment.
 * Définir les actions qui seront réalisées à l'activation des capteurs d'annulation. Le fonctionnement des labels est identique aux actions de l'onglet **Accusé de réception**.
 
+Lors d'une annulation, toutes les actions d'alertes "futures" sont annulées.
+
 Si l'une de vos action est de type "message", vous pouvez utiliser les tags configurés dans l'onglet "Général".
 
-![](https://raw.githubusercontent.com/AgP42/seniorcarealertbt/master/docs/assets/images/OngletAnnulation.png)
 
 Onglet **Avancé - Commandes Jeedom**
 ---
@@ -188,7 +197,7 @@ Le comportement dépendra de la configuration du plugin :
 * si toutes les actions sont liées à des label, alors il ne se passera rien.
 * si certaines actions ne sont pas conditionnées : elles seront exécutées.
 
-Divers
+Infos capteurs
 ---
 
 * Pour les capteurs "bouton d'alerte" et "bouton d'annulation d'alerte", c'est le changement de valeur du capteur qui est détecté et déclenche les actions, la valeur en elle-même n'est pas prise en compte !
