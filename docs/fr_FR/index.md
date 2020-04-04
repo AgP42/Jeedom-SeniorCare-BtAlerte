@@ -203,3 +203,9 @@ Infos capteurs
 * Pour les capteurs "bouton d'alerte" et "bouton d'annulation d'alerte", c'est le changement de valeur du capteur qui est détecté et déclenche les actions, la valeur en elle-même n'est pas prise en compte !
 * Si vous voulez utiliser un capteur complexe, comme un accéléromètre, vous pouvez utiliser un équipement "Virtuel" dans Jeedom pour définir des seuils et déclencher l'alerte du présent plugin en conséquence.
 * L'ensemble des capteurs définis dans le plugin doivent avoir un nom unique. Le changement de nom d'un capteur revient à le supprimer et à en créer un nouveau. L'historique associé à ce capteur sera donc perdue.
+
+Support
+===
+
+* Pour toute demande de support ou d'information : [Forum Jeedom](https://community.jeedom.com/c/plugins/security/86)
+* Pour un bug ou une demande d'évolution, merci de passer de préférence par [Github](https://github.com/AgP42/seniorcarealertbt/issues)

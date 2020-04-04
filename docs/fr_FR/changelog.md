@@ -21,3 +21,9 @@
 * Prise en compte des remarques du forum : changement du nom des tags et correction coquilles
 * Changement icone
 * Update doc (copies d'écran mises à jour)
+
+0.0.4 - 3 avril 2020
+---
+
+* Modif mineur pour cohérance avec les autres plugin SeniorCare
+
