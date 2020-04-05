@@ -142,17 +142,17 @@ $eqLogics = eqLogic::byType($plugin->getId());
           <br>
 
           <div class="form-group">
-            <label class="col-sm-3 control-label">{{Nom personne de référence }}</label>
+            <label class="col-sm-3 control-label">{{Nom personne de confiance }}</label>
             <div class="col-sm-3">
-              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="trusted_person_name" placeholder="{{Nom de la personne de référence}}"/>
+              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="trusted_person_name" placeholder="{{Nom de la personne de confiance}}"/>
             </div>
             <div class="col-sm-3">{{tag <strong>#trusted_person_name#</strong>}}</div>
           </div>
 
           <div class="form-group">
-            <label class="col-sm-3 control-label">{{Téléphone personne de référence }}</label>
+            <label class="col-sm-3 control-label">{{Téléphone personne de confiance }}</label>
             <div class="col-sm-3">
-              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="trusted_person_phone" placeholder="{{Numéro de téléphone de la personne de référence}}"/>
+              <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="trusted_person_phone" placeholder="{{Numéro de téléphone de la personne de confiance}}"/>
             </div>
             <div class="col-sm-3">{{tag <strong>#trusted_person_phone#</strong>}}</div>
           </div>
@@ -190,7 +190,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
       <form class="form-horizontal">
         <fieldset>
           <legend><i class="fas fa-bomb"></i> {{Actions alerte vers les aidants (pour alerter, je dois ?)}} <sup><i class="fas fa-question-circle tooltips" title="{{Actions réalisées à l'activation d'un bouton d'alerte par la personne dépendante.
-          Tag utilisable : #senior_name#.}}"></i></sup>
+          Tag utilisable : voir doc.}}"></i></sup>
             <a class="btn btn-success btn-sm addAction" data-type="action_alert_bt" style="margin:5px;"><i class="fas fa-plus-circle"></i> {{Ajouter une action}}</a>
           </legend>
           <div id="div_action_alert_bt"></div>
@@ -265,7 +265,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
       <form class="form-horizontal">
         <fieldset>
           <legend><i class="fas fa-hand-paper"></i> {{Actions pour arrêter l'alerte vers les aidants (pour annuler l'alerte, je dois ?)}} <sup><i class="fas fa-question-circle tooltips" title="{{Actions réalisées sur activation d'un bouton d'annulation d'alerte.
-          Tag utilisable : #senior_name#.}}"></i></sup>
+          Tag utilisable : voir doc.}}"></i></sup>
             <a class="btn btn-success btn-sm addAction" data-type="action_cancel_alert_bt" style="margin:5px;"><i class="fas fa-plus-circle"></i> {{Ajouter une action}}</a>
           </legend>
           <div id="div_action_cancel_alert_bt"></div>
