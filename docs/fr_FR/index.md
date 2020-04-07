@@ -15,6 +15,8 @@ Les boutons d'alerte peuvent être de n'importe quel type : bouton à porter, in
 
 Les actions peuvent être n'importe quelle action Jeedom : gestion lampe, avertisseur sonore, notification sur smartphone, sms, email, message vocal, ...
 
+Il est aussi possible d'utiliser ce plugin comme simple bouton d'appel.
+
 Lien vers le code source : [https://github.com/AgP42/seniorcarealertbt/](https://github.com/AgP42/seniorcarealertbt/)
 
 Si vous souhaitez participer au projet, n’hésitez pas à le faire savoir ici [Développer un logiciel d’Analyse comportementale](https://community.jeedom.com/t/developper-un-logiciel-danalyse-comportementale/19111)
@@ -30,9 +32,9 @@ Ce plugin est gratuit et open source, il est fourni sans garanti de bon fonction
 Changelog
 ==========
 
-Ce plugin est en cours de développement, il est encore en versions beta pour tests.
-
 Voir le [Changelog](https://agp42.github.io/seniorcarealertbt/fr_FR/changelog)
+
+Seules les modifications ayant un impact fonctionnel sur le plugin sont listées dans le changelog.
 
 Principe de fonctionnement
 ========================

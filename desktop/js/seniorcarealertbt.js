@@ -100,7 +100,7 @@ function addSensorBtAlert(_info) {
       div += '<div class="col-sm-2">';
         div += '<div class="input-group">';
           div += '<span class="input-group-btn">';
-          div += '<a class="btn btn-default bt_removeAction roundedLeft" data-type="alert_bt" title="{{Supprimer le bouton}}""><i class="fas fa-minus-circle"></i></a>';
+          div += '<a class="btn btn-default bt_removeAction roundedLeft" data-type="alert_bt" title="{{Supprimer le bouton}}"><i class="fas fa-minus-circle"></i></a>';
           div += '</span>';
           div += '<input class="expressionAttr form-control cmdInfo" data-l1key="name" title="{{Le nom doit être unique}}"/>'; // dans la class ['name']
         div += '</div>';
