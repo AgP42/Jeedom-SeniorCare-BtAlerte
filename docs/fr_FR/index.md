@@ -41,7 +41,7 @@ Principe de fonctionnement
 
 Le principe est le suivant :
 * La personne âgée dispose d'un ou plusieurs boutons d'alerte, au déclenchement de l'un d'eux, le mécanisme d'alerte est lancé. Vous pouvez alors définir des actions à réaliser dans le logement (changement de couleur d'une lampe, alerte sonore, ...) ainsi que des actions vers un ou plusieurs aidants extérieurs. Ces actions peuvent être des notifications sur leur téléphone, un sms, un email, ... Ces différentes actions peuvent être réalisées immédiatement ou être retardées. Ceci permet de définir plusieurs personnes à avertir successivement tant que l'alerte n'a pas été prise en compte par l'un d'eux
-* Les aidants peuvent accuser réception de l'alerte, ce qui aura pour effet de déclencher des actions spécifiques (changer la couleur de la lampe dans le logement de la personne pour la prévenir que son alerte a été prise en compte par exemple). A la réception d'un AR, les actions d'alerte programmés qui n'ont pas encore été exécutées sont annulées. Ceci permet de couper la chaîne d'alerte. Il est possible de définir des actions à ne réaliser que si une action d'alerte précédente a été exécutée. Ceci permet de prévenir les autres personnes ayant reçu l'alerte que quelqu'un en a accusé réception par exemple.
+* Les aidants peuvent accuser réception de l'alerte, ce qui aura pour effet de déclencher des actions spécifiques (changer la couleur de la lampe dans le logement de la personne pour la prévenir que son alerte a été prise en compte par exemple). A la réception d'un AR, les actions d'alerte programmées n'ayant pas encore été exécutées peuvent être annulées, reportées ou laissées en l'état. Ceci permet de couper ou reporter la chaîne d'alerte. Il est possible de définir des actions à ne réaliser que si une action d'alerte précédente a été exécutée. Ceci permet de prévenir les autres personnes ayant reçu l'alerte que quelqu'un en a accusé réception par exemple.
 * Une fois l’aidant sur place ou si la personne réalise avoir déclenché une alerte par erreur, des boutons d'annulation d'alerte et actions associées sont définis.
 
 Configuration du plugin
@@ -100,7 +100,7 @@ Remarques :
 * Si l'une de vos action est de type "message", vous pouvez utiliser les tags définis dans l'onglet **Général**
 
 
-Onglet **Accusé de réception**
+Onglet **Accusé de réception** (AR)
 ---
 Cet onglet fourni l'URL à appeler pour déclencher l'Accusé de Réception ainsi que définir les actions à réaliser lors de la réception de l'AR
 
@@ -110,17 +110,20 @@ Cet onglet fourni l'URL à appeler pour déclencher l'Accusé de Réception ains
    * "Réglages/Système/Configuration/Réseaux" doit être correctement renseigné pour que l'adresse affichée soit fonctionnelle.
    * Vous pouvez cliquer sur le lien pour tester son bon fonctionnement
    * Cet URL peut être appelé par n'importe quel équipement extérieur, notamment un smartphone
+
+* **Comportement des actions d'alerte restantes, à la réception d'un accusé de réception**
+   * Choisir le comportement voulu :
+      * Annuler les actions d'alerte à venir
+      * Les reporter (choisir le délai supplémentaire en minutes)
+      * Ne rien faire : les actions d'alerte à venir seront exécutées comme s'il n'y avait pas eu d'Accusé de Réception
+
 * **Actions à la réception d'un accusé de réception (pour prévenir la personne qu'un aidant arrive, je dois ?)**
    * **Label action de référence** :
-      * Vous pouvez ici saisir le label de l'action de référence de l'onglet "Actions d'alerte".
-      * Le label saisi doit être strictement identique, attention aux espaces.
-      * Lorsque le label est renseigné et correspond à une action d'alerte, il faut que l'action d'alerte de référence ait été précédemment lancée pour que la présente action s'exécute.
-      * Attention, si vous renseignez un label qui n'existe pas (et donc ne sera jamais exécuté), l'action liée ne s'exécutera jamais.
+      * Vous pouvez ici choisir le label de l'action de référence de l'onglet "Actions d'alerte".
+      * Lorsque le label est renseigné, il faut que l'action d'alerte de référence ait été précédemment lancée pour que la présente action s'exécute.
       * Exemple 1 : l'action d'alerte est d'envoyer un message à Mr x, 30 min après le déclenchement du bouton d'alerte (une alerte immédiate vers un autre aidant étant définie par ailleurs). L'action lors de l'AR est d'envoyer un message à Mr x pour le prévenir que quelqu'un a accusé réception de l'alerte. L'action d'AR ne sera exécutée que si l'action d'alerte initiale avait été exécutée à la fin de son délai de 30min. Ceci permet de ne pas envoyer des messages lors d'un AR alors que la personne n'avait pas reçu le message d'alerte initial.
       * Exemple 2 : l'action d'alerte est d'allumer immédiatement une lampe en orange (signaler à la personne que son bouton fonctionne et que l'alerte est envoyée). L'action d'AR est de passer cette lampe en vert lorsqu'un aidant a accusé réception de l'alerte. Il n'est ici pas nécessaire de définir un label pour les lier, car l'action initiale étant immédiate, il n'y a pas de risque d'annuler une action n'ayant jamais eu lieu.
    * **Action** : la commande jeedom correspondant à l'action voulue. L'action peut être de n'importe quel type : une lampe du logement, un message vers les aidants, l'appel d'un scenario jeedom, ... Si l'une de vos action est de type "message", vous pouvez utiliser les tags définis dans l'onglet **Général**
-
-Lors de la réception d'un accusé de réception, toutes les actions d'alertes "futures" sont annulées.
 
 Onglet **Annulation d'alerte**
 ---
@@ -162,7 +165,7 @@ En cas d'appuis multiple sur le bouton d'alerte
 ### Après qu'un accusé de réception extérieur ait été reçu
 
 * Toutes les actions à déclenchement immédiat seront relancées à chaque appui
-* Les actions différées (qui ont été annulées par la réception de l'AR) seront reprogrammées (1 fois) par rapport à l'heure du 1er nouvel appui après la réception de l'AR
+* Les actions différées (si elles ont été annulées par la réception de l'AR) seront reprogrammées (1 fois) par rapport à l'heure du 1er nouvel appui après la réception de l'AR. Si les actions avaient été décallées par l'AR, alors elles ne sont pas impactées.
 * Le statut de l'état des alertes envoyées n'est pas impacté.
 * Exemple :
    * Il y a 5 personnes dans la chaîne de transmission de l'alerte
@@ -175,7 +178,7 @@ Ainsi le fait de relancer le bouton d'alerte en cours du processus n’exclut pa
 En cas de multiples Accusé de réceptions reçus
 ---
 * Toutes les actions de la liste des actions AR seront relancées à chaque réception de la commande d'AR. Si elles dépendent d'une action d'alerte de référence (via un label), elles seront réalisées si l'action initiale a été réalisée uniquement.
-* Les actions différées sont annulées à la réception du premier AR.
+* Pour les actions différées, si le choix était de les reportées à la réception d'un AR, elles sont reportées d'autant à chaque réception d'AR. Par exemple si vous avez configuré 30min de décalage, si 3 AR sont reçus, les actions d'alerte différées seront reportées d'1h30.
 
 Exemple :
 * 3 personnes ont reçu des messages d'alerte
