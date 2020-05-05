@@ -219,10 +219,18 @@ $eqLogics = eqLogic::byType($plugin->getId());
               <?php
               if(init('id') != ''){
                 $eqLogic = eqLogic::byId(init('id'));
-                $cmd = $eqLogic->getCmd(null, 'alerte_bt_ar');
-                echo '<a href="' . $cmd->getDirectUrlAccess() . '" target="_blank"><i class="fas fa-external-link-alt"></i>  '. $cmd->getDirectUrlAccess() . '</a>';
+                if(is_object($eqLogic)){
+                  $cmd = $eqLogic->getCmd(null, 'alerte_bt_ar');
+                  if(is_object($cmd)){
+                    echo '<p>N\'importe où dans Jeedom, appelez cette commande : <i class="fas fa-code-branch"></i><b>  '. $cmd->getHumanName() . '</b><br>Où via l\'extérieur : <a href="' . $cmd->getDirectUrlAccess() . '" target="_blank"><i class="fas fa-external-link-alt"></i>  '. $cmd->getDirectUrlAccess() . '</a></p>';
+                  } else {
+                    echo 'Hum... vous n\'auriez pas supprimé manuellement la commande "Accuser Réception Alerte" par hasard ? Il vous reste plus qu\'à supprimer cet équipement et recommencer !';
+                  }
+                } else {
+                  echo 'Erreur : cet eqLogic n\'existe pas';
+                }
               } else {
-                echo 'Sauvegarder ou rafraichir la page pour afficher l\'URL';
+                echo 'Sauvegarder ou rafraichir la page pour afficher les infos';
               }
               ?>
             </div>
@@ -230,6 +238,29 @@ $eqLogics = eqLogic::byType($plugin->getId());
         </fieldset>
       </form>
 
+      <br>
+
+      <form class="form-horizontal">
+        <fieldset>
+          <legend><i class="fas fa-stopwatch"></i> {{Comportement des actions d'alerte restantes, à la réception d'un accusé de réception}} <sup><i class="fas fa-question-circle tooltips" title="{{Que faut-il faire des actions d'alerte non encore exécutées lors de la réception d'un accusé de réception}}"></i></sup>
+          </legend>
+          <div class="col-sm-4 col-md-2">
+            <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="comportement_actions_alerte_reception_AR">
+            <option value="remove">{{les annuler}}</option>
+            <option value="delay">{{les reporter}}</option>
+            <option value="keep">{{garder la programmation prévue}}</option>
+            </select>
+          </div>
+
+          <div class="delay">
+            <label class="col-sm-2 control-label">{{délai supplémentaire}} <sup><i class="fas fa-question-circle tooltips" title="{{Délai en minutes}}"></i></sup></label>
+            <div class="col-sm-3 col-md-1">
+              <input type="number" min="1" class="eqLogicAttr form-control" data-l1key="configuration"  data-l2key="delai_ar" placeholder="minutes" />
+            </div>
+          </div>
+
+        </fieldset>
+      </form>
       <br>
 
       <form class="form-horizontal">

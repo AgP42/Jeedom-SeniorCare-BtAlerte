@@ -22,6 +22,17 @@ $("#div_action_ar_alert_bt").sortable({axis: "y", cursor: "move", items: ".actio
 $("#div_cancel_alert_bt").sortable({axis: "y", cursor: "move", items: ".cancel_alert_bt", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#div_action_cancel_alert_bt").sortable({axis: "y", cursor: "move", items: ".action_cancel_alert_bt", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
+// gestion des champs additionnels selon le menu déroulant
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=comportement_actions_alerte_reception_AR]').change(function () {
+  if($('.eqLogicAttr[data-l1key=configuration][data-l2key=comportement_actions_alerte_reception_AR]').value() == "remove" || $('.eqLogicAttr[data-l1key=configuration][data-l2key=comportement_actions_alerte_reception_AR]').value() == "keep"){
+    $('.delay').hide();
+  } else if($('.eqLogicAttr[data-l1key=configuration][data-l2key=comportement_actions_alerte_reception_AR]').value() == "delay"){
+    $('.delay').show();
+  } else {
+    $('.delay').hide();
+  }
+});
+
 // le bouton "ajouter un bt d'alerte" de l'onglet bouton d'alerte
 $('.addSensorBtAlert').off('click').on('click', function () {
   addSensorBtAlert({});
@@ -31,9 +42,10 @@ $('.addSensorCancelBtAlert').off('click').on('click', function () {
   addSensorCancelBtAlert({});
 });
 
+var _labels; // variable pour memoriser les labels "action", la variable est remplie à la sauvegarde dans printEqLogic
 // tous les boutons d'action regroupés !
 $('.addAction').off('click').on('click', function () {
-  addAction({}, $(this).attr('data-type'));
+  addAction({}, $(this).attr('data-type'), _labels);
 });
 
 // tous les - qui permettent de supprimer la ligne
@@ -78,7 +90,7 @@ $("body").undelegate(".listAction", 'click').delegate(".listAction", 'click', fu
   });
 });
 
-// TODO ce morceau de code est un copier/coller du plugin thermostat, a voir s'il n'y a pas des trucs inutiles là-edans
+//sert à charger les champs quand on clique dehors -> A garder !!!
 $('body').off('focusout','.cmdAction.expressionAttr[data-l1key=cmd]').on('focusout','.cmdAction.expressionAttr[data-l1key=cmd]',function (event) {
   var type = $(this).attr('data-type');
   var expression = $(this).closest('.' + type).getValues('.expressionAttr');
@@ -166,7 +178,7 @@ function addSensorCancelBtAlert(_info) {
 //////////////// Les fonctions ACTIONS /////////////////////////////////
 
 // fonction générique pour ajouter chaque ligne d'action.
-function addAction(_action, _type) {
+function addAction(_action, _type, _labels) {
   var div = '<div class="' + _type + '">';
     div += '<div class="form-group ">';
 
@@ -182,8 +194,18 @@ function addAction(_action, _type) {
         div += '</div>';
       } else { // pour les actions à la reception d'1 AR ou d'annulation d'alerte, on ajoute le label de l'action d'alerte à lier
         div += '<label class="col-sm-2 control-label">{{Label action de référence}} <sup><i class="fas fa-question-circle tooltips" title="{{Renseigner le label de l\'action de référence. Cette action ne sera exécutée que si l\'action de référence a été précédemment exécutée. }}"></i></sup></label>';
-        div += '<div class="col-sm-1">';
+/*        div += '<div class="col-sm-1">';
           div += '<input type="text" class="expressionAttr form-control cmdInfo" data-l1key="action_label_liee"/>';
+        div += '</div>';*/
+        div += '<div class="col-sm-6 col-md-2">';
+          div += '<div class="input-group">';
+            div += '<span class="input-group-btn">';
+              div += '<a class="btn btn-default bt_removeAction roundedLeft" data-type="' + _type + '"><i class="fas fa-minus-circle"></i></a>';
+            div += '</span>';
+            div += '<select class="expressionAttr eqLogicAttr form-control" data-l1key="action_label_liee">';
+              div += _labels;
+            div += '</select>';
+          div += '</div>';
         div += '</div>';
       }
 
@@ -236,6 +258,8 @@ function printEqLogic(_eqLogic) {
   $('#div_cancel_alert_bt').empty();
   $('#div_action_cancel_alert_bt').empty();
 
+  _labels = '<option value="" select></option>'; // initialise notre liste deroulante de labels avec le choix "vide"
+
   if (isset(_eqLogic.configuration)) {
     if (isset(_eqLogic.configuration.alert_bt)) {
       for (var i in _eqLogic.configuration.alert_bt) {
@@ -244,12 +268,15 @@ function printEqLogic(_eqLogic) {
     }
     if (isset(_eqLogic.configuration.action_alert_bt)) {
       for (var i in _eqLogic.configuration.action_alert_bt) {
-        addAction(_eqLogic.configuration.action_alert_bt[i], 'action_alert_bt');
+        if(_eqLogic.configuration.action_alert_bt[i].action_label != ''){ // a chaque action, si le label est non vide, on le prend pour le mettre dans la liste déroulante
+          _labels += '<option value="'+_eqLogic.configuration.action_alert_bt[i].action_label+'">'+_eqLogic.configuration.action_alert_bt[i].action_label+'</option>';
+        }
+        addAction(_eqLogic.configuration.action_alert_bt[i], 'action_alert_bt', '');
       }
     }
     if (isset(_eqLogic.configuration.action_ar_alert_bt)) {
       for (var i in _eqLogic.configuration.action_ar_alert_bt) {
-        addAction(_eqLogic.configuration.action_ar_alert_bt[i], 'action_ar_alert_bt');
+        addAction(_eqLogic.configuration.action_ar_alert_bt[i], 'action_ar_alert_bt', _labels);
       }
     }
     if (isset(_eqLogic.configuration.cancel_alert_bt)) {
@@ -259,7 +286,7 @@ function printEqLogic(_eqLogic) {
     }
     if (isset(_eqLogic.configuration.action_cancel_alert_bt)) {
       for (var i in _eqLogic.configuration.action_cancel_alert_bt) {
-        addAction(_eqLogic.configuration.action_cancel_alert_bt[i], 'action_cancel_alert_bt');
+        addAction(_eqLogic.configuration.action_cancel_alert_bt[i], 'action_cancel_alert_bt', _labels);
       }
     }
   }
