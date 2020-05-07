@@ -184,7 +184,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
       <br/>
       <div class="alert alert-info">
-        {{Onglet de configuration des actions d'alerte pour prévenir les aidants. Vous pouvez choisir plusieurs actions et un délai d'attente pour chacune. Les actions en attente ne seront pas exécutées si un accusé de reception est reçu entre-temps, ou en cas d'annulation de l'alerte.}}
+        {{Onglet de configuration des actions d'alerte pour prévenir les aidants. Vous pouvez choisir plusieurs actions et un délai d'attente pour chacune. Les actions en attente peuvent être reportées ou annulées si un accusé de reception est reçu entre-temps, ou elles seront annulées en cas d'annulation de l'alerte.}}
       </div>
 
       <form class="form-horizontal">
