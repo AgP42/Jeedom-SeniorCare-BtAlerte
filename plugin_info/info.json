@@ -10,11 +10,5 @@
 	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
 	"changelog" : "https://agp42.github.io/seniorcarealertbt/#language#/changelog",
-	"documentation" : "https://agp42.github.io/seniorcarealertbt/#language#/",
-	"link" : {
-    "forum":"https://community.jeedom.com/t/developper-un-logiciel-danalyse-comportementale/19111",
-		"video" : "Lien vers une video"
-	},
-	"language" : ["fr_FR","en_US"],
-	"compatibility" : ["miniplus","smart","rpi","docker","diy", "v4"]
+	"documentation" : "https://agp42.github.io/seniorcarealertbt/#language#/"
 }
