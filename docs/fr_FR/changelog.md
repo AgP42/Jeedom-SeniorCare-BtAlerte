@@ -3,6 +3,8 @@
 1.0.0 - juin 2020 => voir beta 0.0.5 du 5 mai
 ---
 
+1.0.1 - 26 juin 2020 => idem beta 1.0.1
+---
 
 # Betas
 
@@ -44,4 +46,4 @@
 1.0.1 - 26 juin 2020
 ---
 
-* debug cas où plusieurs actions d'AR ou d'annulation sont liées à un meme label d'action de reference
+* debug cas où plusieurs actions d'annulation sont liées à un meme label d'action de reference
