@@ -111,6 +111,7 @@ class seniorcarealertbt extends eqLogic {
 
         log::add('seniorcarealertbt', 'debug', $seniorcarealertbt->getHumanName() . ' ################ Bouton d\'annulation d\'alerte déclenché ############');
 
+        // boucle d'execution des actions
         foreach ($seniorcarealertbt->getConfiguration('action_cancel_alert_bt') as $action) { // pour toutes les actions d'annulation définies
 
           $execActionLiee = $seniorcarealertbt->getCache('execAction_'.$action['action_label_liee']); // on va lire le cache d'execution de l'action liée, savoir si deja lancé ou non...
@@ -123,16 +124,29 @@ class seniorcarealertbt extends eqLogic {
 
             $seniorcarealertbt->execAction($action);
 
-          }else if(isset($action['action_label_liee']) && $action['action_label_liee'] != '' && $execActionLiee == 1){ // si on a une action liée définie et qu'elle a été executée => on execute notre action et on remet le cache de l'action liée à 0 (fait uniquement pour les boutons d'annulation et non à la réception de l'AR, donc l'aidant ayant recu une alerte pourra recevoir l'info qu'il y a eu une AR (mais on sait pas par qui... TODO...) puis que l'alerte est résolue)
+          }else if(isset($action['action_label_liee']) && $action['action_label_liee'] != '' && $execActionLiee == 1){ // si on a une action liée définie et qu'elle a été executée => on execute notre action
 
             log::add('seniorcarealertbt', 'debug', $seniorcarealertbt->getHumanName() . ' Action liée ('.$action['action_label_liee'].') executée précédemment, donc on execute ' . $action['cmd'] . ' et remise à 0 du cache d\'exec de l\'action origine');
 
             $seniorcarealertbt->execAction($action);
 
-            $seniorcarealertbt->setCache('execAction_'.$action['action_label_liee'], 0);
-
           }else{ // sinon, on log qu'on n'execute pas l'action et la raison
             log::add('seniorcarealertbt', 'debug', $seniorcarealertbt->getHumanName() . ' Action liée ('.$action['action_label_liee'].') non executée précédemment, donc on execute pas ' . $action['cmd']);
+          }
+
+        } // fin foreach toutes les actions
+
+        // boucle de reset des caches
+        foreach ($seniorcarealertbt->getConfiguration('action_cancel_alert_bt') as $action) { // pour toutes les actions d'annulation définies
+
+          $execActionLiee = $seniorcarealertbt->getCache('execAction_'.$action['action_label_liee']); // on va lire le cache d'execution de l'action liée, savoir si deja lancé ou non...
+
+          if(isset($action['action_label_liee']) && $action['action_label_liee'] != '' && $execActionLiee == 1){ // si on a une action liée définie et qu'elle a été executée => on remet le cache de l'action liée à 0 (fait uniquement pour les boutons d'annulation et non à la réception de l'AR, donc l'aidant ayant recu une alerte pourra recevoir l'info qu'il y a eu une AR (mais on sait pas par qui... TODO...) puis que l'alerte est résolue)
+
+            log::add('seniorcarealertbt', 'debug', $seniorcarealertbt->getHumanName() . ' Action liée ('.$action['action_label_liee'].') executée précédemment, remise à 0 du cache d\'exec de l\'action origine');
+
+            $seniorcarealertbt->setCache('execAction_'.$action['action_label_liee'], 0);
+
           }
 
         } // fin foreach toutes les actions
