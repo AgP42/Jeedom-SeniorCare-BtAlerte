@@ -417,7 +417,8 @@ class seniorcarealertbt extends eqLogic {
               $cmd->save();
 
               // va chopper la valeur de la commande puis la suivre a chaque changement
-              if (is_nan($cmd->execCmd()) || $cmd->execCmd() == '') {
+			  $value = $cmd->execCmd();
+		  	  if (!is_numeric($value) || is_nan((float)$value) || $value == '') {
                 $cmd->setCollectDate('');
                 $cmd->event($cmd->execute());
               }
@@ -455,7 +456,8 @@ class seniorcarealertbt extends eqLogic {
           $cmd->save();
 
           // va chopper la valeur de la commande puis la suivre a chaque changement
-          if (is_nan($cmd->execCmd()) || $cmd->execCmd() == '') {
+		  $value = $cmd->execCmd();
+          if (!is_numeric($value) || is_nan((float)$value) || $value == '') {
             $cmd->setCollectDate('');
             $cmd->event($cmd->execute());
           }
@@ -630,5 +632,3 @@ class seniorcarealertbtCmd extends cmd {
 
     /*     * **********************Getteur Setteur*************************** */
 }
-
-

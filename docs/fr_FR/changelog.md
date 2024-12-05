@@ -6,6 +6,9 @@
 1.0.1 - 26 juin 2020 => idem beta 1.0.1
 ---
 
+1.0.2 - 05/12/2024 => Correctif PHP 8 (idem beta)
+---
+
 # Betas
 
 0.0.1 - 24 mars 2020
@@ -44,6 +47,9 @@
 * Mise à jour de la documentation
 
 1.0.1 - 26 juin 2020
+---
+
+1.0.2 - 05/12/2024 => Correctif PHP 8
 ---
 
 * debug cas où plusieurs actions d'annulation sont liées à un meme label d'action de reference
